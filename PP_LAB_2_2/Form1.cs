@@ -19,13 +19,33 @@ namespace PP_LAB_2_2
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            var context = new records();
             currency cur = new currency();
-            string date = monthCalendar1.SelectionRange.Start.ToString("yyyy-MM-dd");
-            await cur.load(date);
+            string _date = monthCalendar1.SelectionRange.Start.ToString("yyyy-MM-dd");
+            cur.record_date = _date;
+
             if (comboBox1.Text != "")
             {
-                listView1.Items.Add(comboBox1.Text + "[" + date + "]" + ": " + cur.rates[comboBox1.Text]);
+                var curre = (from s in context.currencies
+                             where s.record_date == _date && s.name == comboBox1.Text
+                             select s).ToList<currency>();
+
+                if (curre.Count() == 0) //jak nie ma w bazie
+                {
+                    await cur.load(_date);
+                    cur.name = comboBox1.Text;
+                    cur.exchange = cur.rates[comboBox1.Text];
+                    context.currencies.Add(cur);
+                    listView1.Items.Add(comboBox1.Text + "[" + _date + "]" + ": " + cur.rates[comboBox1.Text] + " [json]");
+
+                }
+                else //jak jest w bazie
+                {
+                    listView1.Items.Add(comboBox1.Text + "[" + _date + "]" + ": " + curre[0].exchange + " [BD]");
+                }
             }
+            context.SaveChanges();
+
         }
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
