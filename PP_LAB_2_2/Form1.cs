@@ -45,7 +45,6 @@ namespace PP_LAB_2_2
                 }
             }
             context.SaveChanges();
-
         }
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
@@ -65,7 +64,7 @@ namespace PP_LAB_2_2
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+      
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

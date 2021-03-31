@@ -33,9 +33,4 @@ namespace PP_LAB_2_2
             this.rates = cur.rates;
         }
     }
-
-    public class records : DbContext
-    {
-        public virtual DbSet<currency> currencies { get; set; }
-    }
 }
